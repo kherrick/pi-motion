@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div id="content">
+    <div id="charts">
+      <div id="chart"></div>
+      <div>
+        <core-label>
+          <div class="date-picker-label">Year</div>
+          <paper-slider pin="true" min="1970" max="2050" value="2015" id="year"></paper-slider>
+        </core-label>
+        <core-label>
+          <div class="date-picker-label">Month</div>
+          <paper-slider pin="true" min="1" max="12" value="4" id="month"></paper-slider>
+        </core-label>
+        <core-label>
+          <div class="date-picker-label">Day</div>
+          <paper-slider pin="true" min="1" max="31" value="14" id="day"></paper-slider>
+        </core-label>
+        <core-label>
+          <div class="date-picker-label">Hour</div>
+          <paper-slider pin="true" min="0" max="23" value="21" id="hour"></paper-slider>
+        </core-label>
+      </div>
+      <div class="progress-bar">
+        <paper-progress indeterminate></paper-progress>
+      </div>
+      <div layout horizontal>
+        <div flex></div>
+        <div>
+          <paper-button raised on-tap="{{updateChart}}">Update Chart</paper-button>
+        </div>
+        <div flex></div>
+      </div>
+    </div>
+    <paper-toast id="no-chart-data-toast" duration="1000" text="No data is available, please choose a different time."></paper-toast>
+  </div>
+</body>
+</html>

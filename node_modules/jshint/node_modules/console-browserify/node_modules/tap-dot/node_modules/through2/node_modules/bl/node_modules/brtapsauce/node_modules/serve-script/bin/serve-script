@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+
+var parser = require('nomnom'),
+    http = require('http'),
+    fs = require('fs'),
+    serve = require('../');
+
+var opts = parser.options({
+    file: {
+        position: 0,
+        help: 'JS file to serve (default stdin)'
+    },
+
+    port: {
+        abbr: 'p',
+        default: 8000,
+        help: 'Port to listen on'
+    },
+
+    'no-console': {
+        help: 'Disable console.log redirection',
+        flag: true
+    }
+}).parse();
+
+function getSource(callback) {
+    if (!opts.file) {
+        var src = '';
+        process.stdin.resume();
+        process.stdin.on('data', function(data) {
+            src += data.toString();
+        });
+        process.stdin.on('close', function() {
+            callback(src);
+        });
+    } else {
+        callback(function(callback) {
+            callback(null, fs.createReadStream(opts.file));
+        });
+    }
+}
+
+getSource(function(src) {
+    var handler = serve({
+        noConsole: opts['no-console'],
+        src: src
+    });
+
+    http.createServer(handler)
+        .listen(opts.port, function(err) {
+            if (err) {
+                throw err;
+            }
+
+            console.log('Listening on port ' + opts.port);
+        });
+});

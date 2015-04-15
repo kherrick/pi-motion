@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>Pi-Motion</title>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="vendor/webcomponentsjs/webcomponents.min.js"></script>
+  <script src="vendor/jquery-smartresize/jquery.throttledresize.js"></script>
+  <script type="text/javascript" src="http://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['annotationchart']}]}"></script>
+  <link rel="import" href="vendor/core-animated-pages/core-animated-pages.html">
+  <link rel="import" href="vendor/core-animated-pages/transitions/slide-from-right.html">
+  <link rel="import" href="vendor/core-toolbar/core-toolbar.html">
+  <link rel="import" href="vendor/core-scaffold/core-scaffold.html">
+  <link rel="import" href="vendor/core-icon-button/core-icon-button.html">
+  <link rel="import" href="vendor/core-icon/core-icon.html">
+  <link rel="import" href="vendor/core-menu/core-menu.html">
+  <link rel="import" href="vendor/paper-item/paper-item.html">
+  <link rel="import" href="vendor/flatiron-director/flatiron-director.html">
+  <link rel="import" href="vendor/font-roboto/roboto.html">
+  <link rel="import" href="vendor/core-a11y-keys/core-a11y-keys.html">
+  <link rel="import" href="vendor/core-ajax/core-ajax.html">
+  <link rel="import" href="vendor/paper-button/paper-button.html">
+  <link rel="import" href="vendor/paper-slider/paper-slider.html">
+  <link rel="import" href="vendor/core-label/core-label.html">
+  <link rel="import" href="vendor/paper-toast/paper-toast.html">
+  <link rel="import" href="vendor/paper-progress/paper-progress.html">
+  <link rel="stylesheet" type="text/css" href="styles/styles.css" shim-shadowdom>
+</head>
+<body unresolved fullbleed layout vertical>
+<template is="auto-binding" id="main">
+  <flatiron-director route="{{route}}" autoHash></flatiron-director>
+
+  <core-a11y-keys id="keys" target="{{parentElement}}" keys="up down left right space space+shift" on-keys-pressed="{{keyHandler}}"></core-a11y-keys>
+
+  <core-ajax id="ajax" url="{{selectedPage.page.url}}" handleAs="document" on-core-response="{{onResponse}}"></core-ajax>
+
+  <core-scaffold id="scaffold">
+
+    <nav>
+      <core-toolbar>
+        <span></span>
+      </core-toolbar>
+      <core-menu id="menu" valueattr="hash"
+                 selected="{{route}}"
+                 selectedModel="{{selectedPage}}"
+                 on-core-select="{{menuItemSelected}}" on-click="{{ajaxLoad}}">
+        <template repeat="{{page in pages}}">
+          <paper-item hash="{{page.hash}}" noink>
+            <core-icon icon="label{{route != page.hash ? '-outline' : ''}}"></core-icon>
+            <a href="{{page.url}}">{{page.name}}</a>
+          </paper-item>
+        </template>
+      </core-menu>
+    </nav>
+
+    <core-toolbar tool flex>
+      <div flex>{{selectedPage.page.name}}</div>
+    </core-toolbar>
+
+    <core-animated-pages id="pages" selected="{{route}}" valueattr="hash" transitions="slide-from-right">
+      <template repeat="{{page in pages}}">
+        <section hash="{{page.hash}}">
+          <div class="content-container">
+            <div id="loading">Loading...</div>
+          </div>
+        </section>
+      </template>
+    </core-animated-pages>
+
+  </core-scaffold>
+</template>
+<script src="scripts/bundle.js"></script>
+</body>
+</html>

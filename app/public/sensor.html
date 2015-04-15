@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div id="content">
+    <div id="sensor">
+      <div layout horizontal>
+        <div flex></div>
+        <div>
+          <svg id="sensor-indicator">
+            <circle id="circle" cx="125" cy="125" r="120" stroke="black" stroke-width="3" fill="#eb7670" />
+          </svg>
+        </div>
+        <div flex></div>
+      </div>
+      <div class="progress-bar">
+        <paper-progress id="init-sensor-progress-bar"></paper-progress>
+      </div>
+      <div layout horizontal>
+        <div flex>
+        </div>
+        <div>
+          <paper-button raised on-tap="{{toggleSensor}}">Toggle</paper-button>
+        </div>
+        <div flex>
+        </div>
+      </div>
+    </div>
+    <div layout horizontal>
+      <div id="sensor-status-bar">The sensor is disabled.</div>
+    </div>
+    <paper-toast id="init-sensor-toast" duration="10000" text="The sensor is initializing, please be still for at least forty seconds."></paper-toast>
+  </div>
+</body>
+</html>

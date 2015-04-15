@@ -1,0 +1,56 @@
+html /deep/ #mainContainer {
+  background-color: #fff !important;
+}
+
+core-toolbar {
+  background-color: #526e9c;
+}
+
+paper-slider {
+  width: 100%;
+}
+
+paper-progress {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 0;
+  width: 75%;
+}
+
+#index, #home, #sensor, #charts {
+  padding: 20px;
+}
+
+#sensor-indicator {
+  height: 250px;
+  width: 250px;
+  padding-bottom: 10px;
+}
+
+#sensor-status-bar {
+  background: #eee;
+  border-top: 1px solid black;
+  padding: 3px 3px 3px 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 24px;
+  text-align: left;
+}
+
+#chart {
+  height: 250px;
+  padding-bottom: 20px;
+}
+
+.progress-bar {
+  visibility: hidden;
+}
+
+.date-picker-label {
+  text-align: center;
+}
+
+.google-visualization-atl .border {
+  border: 0px;
+}

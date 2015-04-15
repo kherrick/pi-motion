@@ -1,0 +1,78 @@
+{
+  "name": "wd",
+  "description": "WebDriver/Selenium 2 node.js client",
+  "tags": [
+    "web",
+    "automation",
+    "browser",
+    "javascript"
+  ],
+  "version": "0.2.27",
+  "author": "Adam Christian <adam.christian@gmail.com>",
+  "contributors": [
+    "Ruben Daniels (https://github.com/javruben)",
+    "Peter Braden (https://github.com/peterbraden)",
+    "Seb Vincent (https://github.com/sebv)",
+    "Peter 'Pita' Martischka (https://github.com/Pita)",
+    "Jonathan Lipps (https://github.com/jlipps)",
+    "Phil Sarin (https://github.com/pdsarin)",
+    "Mathieu Sabourin (https://github.com/OniOni)",
+    "Bjorn Tipling (https://github.com/btipling)",
+    "Santiago Suarez Ordonez (https://github.com/santiycr)",
+    "Bernard Kobos (https://github.com/bernii)",
+    "Jason Carr (https://github.com/maudineormsby)",
+    "Matti Schneider <hi@mattischneider.fr> (https://github.com/MattiSG)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/admc/wd.git"
+  },
+  "licenses": [
+    {
+      "type": "Apache",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/admc/wd/issues"
+  },
+  "engines": [
+    "node"
+  ],
+  "main": "./lib/main",
+  "bin": {
+    "wd": "./lib/bin.js"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies": {
+    "archiver": "~0.10.0",
+    "async": "~0.9.0",
+    "lodash": "~2.4.1",
+    "q": "~1.0.1",
+    "request": "~2.36.0",
+    "underscore.string": "~2.3.3",
+    "vargs": "~0.1.0"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "chai-as-promised": "~4.1.1",
+    "colors": "~0.6.2",
+    "dox": "~0.4.4",
+    "express": "~4.4.1",
+    "hbs": "~2.7.0",
+    "imageinfo": "~1.0.4",
+    "istanbul": "~0.2.10",
+    "jshint": "~2.5.1",
+    "mocha": "~1.20.0",
+    "mu2": "~0.5.20",
+    "nock": "~0.32.3",
+    "promise-simple": "~0.1.0",
+    "sv-selenium": "~0.2.3"
+  },
+  "scripts": {
+    "test": "make test",
+    "test_sauce": "make test_e2e_sauce"
+  }
+}

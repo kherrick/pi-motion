@@ -1,0 +1,38 @@
+{
+  "name": "pi-motion",
+  "version": "1.0.0",
+  "authors": [
+    "Karl Herrick <me@karlherrick.com>"
+  ],
+  "license": {
+    "key": "agpl-3.0",
+    "name": "GNU Affero GPL v3.0",
+    "url": "https://api.github.com/licenses/agpl-3.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "core-animated-pages": "Polymer/core-animated-pages#~0.5.5",
+    "core-toolbar": "Polymer/core-toolbar#~0.5.5",
+    "core-scaffold": "Polymer/core-scaffold#~0.5.5",
+    "core-icon-button": "Polymer/core-icon-button#~0.5.5",
+    "core-icon": "Polymer/core-icon#~0.5.5",
+    "core-menu": "Polymer/core-menu#~0.5.5",
+    "paper-item": "Polymer/paper-item#~0.5.5",
+    "flatiron-director": "Polymer/flatiron-director#~0.5.0",
+    "font-roboto": "Polymer/font-roboto#~0.5.5",
+    "core-a11y-keys": "Polymer/core-a11y-keys#~0.5.5",
+    "core-ajax": "Polymer/core-ajax#~0.5.5",
+    "paper-button": "Polymer/paper-button#~0.5.5",
+    "jquery-smartresize": "*",
+    "paper-slider": "Polymer/paper-slider#~0.5.5",
+    "core-label": "Polymer/core-label#~0.5.5",
+    "paper-toast": "Polymer/paper-toast#^0.5",
+    "paper-progress": "Polymer/paper-progress#^0.5"
+  }
+}
