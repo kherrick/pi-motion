@@ -47,20 +47,17 @@
 	(function() {
 	  'use strict';
 
-	  var config = {
-	      apiPort: 3000,
-	      apiIpAddress: '127.0.0.1'
-	    },
-	    polymer = __webpack_require__(1),
-	    robot = __webpack_require__(2);
+	  var config = __webpack_require__(1),
+	    polymer = __webpack_require__(2),
+	    robot = __webpack_require__(3);
 
 	  $(document).ready(function() {
-	    robot.setup(config.apiIpAddress, config.apiPort);
+	    robot.setup(config.cylonApiIpAddress, config.cylonApiPort);
 	    polymer(robot);
 
 	    //weird hack to get the default page to load in Firefox
 	    //without refreshing the page once.
-	    window.location.href='http://127.0.0.1/#home';
+	    window.location.href='http://' + config.httpServerIpAddress + '/#home';
 	  });
 	})();
 
@@ -69,13 +66,27 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = {
+	  chartApiPort: 80,
+	  cylonApiPort: 3000,
+	  httpServerPort: 80,
+	  chartServerIpAddress: '127.0.0.1',
+	  cylonApiIpAddress: '127.0.0.1',
+	  httpServerIpAddress: '127.0.0.1',
+	};
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
 	module.exports = function() {
 	  'use strict';
 
 	  var ajax, pages, scaffold,
 	    cache = {},
+	    charts = __webpack_require__(4),
+	    config = __webpack_require__(1),
 	    defaultRoute = 'home',
-	    charts = __webpack_require__(3),
 	    template = document.querySelector('#main'),
 	    initCharts = function() {
 	      var pad = function (int) {
@@ -104,7 +115,7 @@
 	    initSensor = function() {
 	      template.toggleSensor = function() {
 	        $.get(
-	          "https://127.0.0.1:3000/api/robots/pi-motion/commands/toggle",
+	          'https://' + config.cylonApiIpAddress + ':' + config.cylonApiPort + '/api/robots/pi-motion/commands/toggle',
 	          function() {}
 	        ).done(function (data) {
 	          var $progressBar = $('#sensor .progress-bar');
@@ -240,7 +251,7 @@
 
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
@@ -260,7 +271,7 @@
 	          baseUrl + '/api/robots/pi-motion/events/is_toggled'
 	        )
 	      },
-	      sensor = __webpack_require__(4);
+	      sensor = __webpack_require__(5);
 
 	    events.activatedEvent.onmessage = function(event) {
 	      sensor.activated();
@@ -295,7 +306,7 @@
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function() {
@@ -303,7 +314,8 @@
 
 	  return {
 	    showChart : function(date, hour) {
-	      var $progressBar = $('#charts .progress-bar'),
+	      var config = __webpack_require__(1),
+	        $progressBar = $('#charts .progress-bar'),
 	        dataTable = new google.visualization.DataTable(),
 	        annotationChart = new google.visualization.AnnotationChart(
 	          document.querySelector('#chart')
@@ -350,7 +362,7 @@
 
 	      $.ajax(
 	        {
-	          url: 'http://127.0.0.1/chart/' + date + '/' + hour,
+	          url: 'http://' + config.chartServerIpAddress + '/chart/' + date + '/' + hour,
 	          dataType: 'json',
 	          cache: false,
 	          beforeSend: function() {
@@ -375,7 +387,7 @@
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {

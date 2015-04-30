@@ -1,12 +1,7 @@
 (function() {
   'use strict';
 
-  var config = {
-      httpPort: 80,
-      apiPort: 3000,
-      httpIpAddress: '127.0.0.1',
-      apiIpAddress: '127.0.0.1'
-    },
+var config = require('./config'),
     database = require('./database.js')(
       'databases/charts.sqlite'
     ),
@@ -14,10 +9,10 @@
     server = require('./server.js');
 
   //load cylon and web apis
-  robot.setup(config.apiIpAddress, config.apiPort, database);
+  robot.setup(config.cylonApiIpAddress, config.cylonApiPort, database);
   robot.start();
 
   //load http server
-  server(config.httpIpAddress, config.httpPort, database);
+  server(config.httpServerIpAddress, config.httpServerPort, database);
 
 })();

@@ -3,8 +3,9 @@ module.exports = function() {
 
   var ajax, pages, scaffold,
     cache = {},
-    defaultRoute = 'home',
     charts = require('./charts'),
+    config = require('../config'),
+    defaultRoute = 'home',
     template = document.querySelector('#main'),
     initCharts = function() {
       var pad = function (int) {
@@ -33,7 +34,7 @@ module.exports = function() {
     initSensor = function() {
       template.toggleSensor = function() {
         $.get(
-          "https://127.0.0.1:3000/api/robots/pi-motion/commands/toggle",
+          'https://' + config.cylonApiIpAddress + ':' + config.cylonApiPort + '/api/robots/pi-motion/commands/toggle',
           function() {}
         ).done(function (data) {
           var $progressBar = $('#sensor .progress-bar');

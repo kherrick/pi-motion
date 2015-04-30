@@ -3,7 +3,8 @@ module.exports = function() {
 
   return {
     showChart : function(date, hour) {
-      var $progressBar = $('#charts .progress-bar'),
+      var config = require('../config'),
+        $progressBar = $('#charts .progress-bar'),
         dataTable = new google.visualization.DataTable(),
         annotationChart = new google.visualization.AnnotationChart(
           document.querySelector('#chart')
@@ -50,7 +51,7 @@ module.exports = function() {
 
       $.ajax(
         {
-          url: 'http://127.0.0.1/chart/' + date + '/' + hour,
+          url: 'http://' + config.chartServerIpAddress + '/chart/' + date + '/' + hour,
           dataType: 'json',
           cache: false,
           beforeSend: function() {

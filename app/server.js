@@ -61,6 +61,6 @@ module.exports = function(address, port, database) {
 
   //start listening
   app.listen(port, address, function() {
-    console.log('Express started on ' + address +  ':' + port);
+    console.log('Express started on http://' + address +  ':' + port);
   });
 };
