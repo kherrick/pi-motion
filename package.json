@@ -1,6 +1,6 @@
 {
   "name": "pi-motion",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A minimum viable product allowing for the collection and displaying of motion data using a passive infrared sensor.",
   "main": "app/main.js",
   "scripts": {
