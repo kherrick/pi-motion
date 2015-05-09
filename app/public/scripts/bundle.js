@@ -75,6 +75,7 @@
 	  httpServerIpAddress: '127.0.0.1',
 	};
 
+
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
@@ -98,18 +99,18 @@
 	        hour = document.querySelector('#hour'),
 	        date = year.value + '/' + pad(month.value) + '/' + pad(day.value);
 
-	      charts().showChart(date, hour.value);
+	      charts().showChart(date, pad(hour.value));
 
 	      template.updateChart = function() {
 	        date = year.value + '/' + pad(month.value) + '/' + pad(day.value);
 
-	        charts().showChart(date, hour.value);
+	        charts().showChart(date, pad(hour.value));
 	      };
 
 	      $(window).on('throttledresize', function () {
 	        date = year.value + '/' + pad(month.value) + '/' + pad(day.value);
 
-	        charts().showChart(date, hour.value);
+	        charts().showChart(date, pad(hour.value));
 	      });
 	    },
 	    initSensor = function() {
