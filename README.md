@@ -36,3 +36,4 @@ With just the defaults set, open a browser on the Pi, and go to [https://localho
 ###Read more
 View a write up about the project @ [http://karlherrick.com/dev/2015/04/29/pi-motion/](http://karlherrick.com/dev/2015/04/29/pi-motion/)
 
+[![Build Status](https://travis-ci.org/kherrick/pi-motion.svg?branch=master)](https://travis-ci.org/kherrick/pi-motion)
