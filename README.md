@@ -1,17 +1,17 @@
 pi-motion
 ========
 ###About
-Successfully utilized on a Raspberry Pi 2 Model B.
+Successfully utilized on a Raspberry Pi Zero.
 
 ![alt tag](https://github.com/kherrick/pi-motion/blob/master/images/pi-motion-board.jpg) ![alt tag](https://github.com/kherrick/pi-motion/blob/master/images/pi-motion-breadboard.png)
 
 ###Development
 * Get the required dependencies:
   * `cd /opt`
-  * `sudo curl -O https://iojs.org/dist/v2.0.1/iojs-v2.0.1-linux-armv7l.tar.gz`
-  * `sudo tar -xzpvf iojs-v2.0.1-linux-armv7l.tar.gz`
-  * `sudo ln -s /opt/iojs-v2.0.1-linux-armv7l/bin/node /usr/local/bin/node`
-  * `sudo ln -s /opt/iojs-v2.0.1-linux-armv7l/bin/npm /usr/local/bin/npm`
+  * `sudo curl -O https://nodejs.org/dist/v7.6.0/node-v7.6.0-linux-armv6l.tar.xz`
+  * `sudo tar -xJpvf node-v7.6.0-linux-armv6l.tar.xz`
+  * `sudo ln -s /opt/node-v7.6.0-linux-armv6l/bin/node /usr/local/bin/node`
+  * `sudo ln -s /opt/node-v7.6.0-linux-armv6l/bin/npm /usr/local/bin/npm`
 
 * Clone the repository:
   * `cd ~`

@@ -20,9 +20,10 @@ function accessorAccess(base, accessor) {
 	}).join(", ");
 }
 
-function UmdMainTemplatePlugin(name, optionalAmdExternalAsGlobal) {
+function UmdMainTemplatePlugin(name, options) {
 	this.name = name;
-	this.optionalAmdExternalAsGlobal = optionalAmdExternalAsGlobal;
+	this.optionalAmdExternalAsGlobal = options.optionalAmdExternalAsGlobal;
+	this.namedDefine = options.namedDefine;
 }
 module.exports = UmdMainTemplatePlugin;
 UmdMainTemplatePlugin.prototype.apply = function(compilation) {
@@ -31,7 +32,8 @@ UmdMainTemplatePlugin.prototype.apply = function(compilation) {
 		var externals = chunk.modules.filter(function(m) {
 			return m.external;
 		});
-		var optionalExternals = [], requiredExternals = [];
+		var optionalExternals = [],
+			requiredExternals = [];
 		if(this.optionalAmdExternalAsGlobal) {
 			externals.forEach(function(m) {
 				if(m.optional) {
@@ -51,11 +53,13 @@ UmdMainTemplatePlugin.prototype.apply = function(compilation) {
 				chunk: chunk
 			});
 		}
+
 		function externalsDepsArray(modules) {
 			return "[" + replaceKeys(modules.map(function(m) {
 				return JSON.stringify(typeof m.request === "object" ? m.request.amd : m.request);
 			}).join(", ")) + "]";
 		}
+
 		function externalsRootArray(modules) {
 			return replaceKeys(modules.map(function(m) {
 				var request = m.request;
@@ -63,6 +67,7 @@ UmdMainTemplatePlugin.prototype.apply = function(compilation) {
 				return "root" + accessorToObjectAccess([].concat(request));
 			}).join(", "));
 		}
+
 		function externalsRequireArray(type) {
 			return replaceKeys(externals.map(function(m) {
 				var request = m.request;
@@ -77,51 +82,61 @@ UmdMainTemplatePlugin.prototype.apply = function(compilation) {
 				return expr;
 			}).join(", "));
 		}
+
 		function externalsArguments(modules) {
 			return modules.map(function(m) {
 				return "__WEBPACK_EXTERNAL_MODULE_" + m.id + "__";
 			}).join(", ");
 		}
+
+		function libraryName(library) {
+			return JSON.stringify(replaceKeys([].concat(library).pop()));
+		}
+
 		if(optionalExternals.length > 0) {
 			var amdFactory = "function webpackLoadOptionalExternalModuleAmd(" + externalsArguments(requiredExternals) + ") {\n" +
-			"			return factory(" + (
-				requiredExternals.length > 0 ?
+				"			return factory(" + (
+					requiredExternals.length > 0 ?
 					externalsArguments(requiredExternals) + ", " + externalsRootArray(optionalExternals) :
 					externalsRootArray(optionalExternals)
-			) + ");\n" +
-			"		}";
+				) + ");\n" +
+				"		}";
 		} else {
 			var amdFactory = "factory";
 		}
+
 		return new ConcatSource(new OriginalSource(
 			"(function webpackUniversalModuleDefinition(root, factory) {\n" +
 			"	if(typeof exports === 'object' && typeof module === 'object')\n" +
 			"		module.exports = factory(" + externalsRequireArray("commonjs2") + ");\n" +
 			"	else if(typeof define === 'function' && define.amd)\n" +
 			(requiredExternals.length > 0 ?
-			"		define(" + externalsDepsArray(requiredExternals) + ", " + amdFactory + ");\n"
-			:
-			"		define(" + amdFactory + ");\n"
+				(this.name && this.namedDefine === true ?
+					"		define(" + libraryName(this.name) + ", " + externalsDepsArray(requiredExternals) + ", " + amdFactory + ");\n" :
+					"		define(" + externalsDepsArray(requiredExternals) + ", " + amdFactory + ");\n"
+				) :
+				(this.name && this.namedDefine === true ?
+					"		define(" + libraryName(this.name) + ", [], " + amdFactory + ");\n" :
+					"		define([], " + amdFactory + ");\n"
+				)
 			) +
 			(this.name ?
-			"	else if(typeof exports === 'object')\n" +
-			"		exports[" + JSON.stringify(replaceKeys([].concat(this.name).pop())) + "] = factory(" + externalsRequireArray("commonjs") + ");\n" +
-			"	else\n" +
-			"		" + replaceKeys(accessorAccess("root", this.name)) + " = factory(" + externalsRootArray(externals) + ");\n"
-			:
-			"	else {\n" +
-			(externals.length > 0 ?
-			"		var a = typeof exports === 'object' ? factory(" + externalsRequireArray("commonjs") + ") : factory(" + externalsRootArray(externals) + ");\n"
-			:
-			"		var a = factory();\n"
-			) +
-			"		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];\n" +
-			"	}\n"
+				"	else if(typeof exports === 'object')\n" +
+				"		exports[" + libraryName(this.name) + "] = factory(" + externalsRequireArray("commonjs") + ");\n" +
+				"	else\n" +
+				"		" + replaceKeys(accessorAccess("root", this.name)) + " = factory(" + externalsRootArray(externals) + ");\n" :
+				"	else {\n" +
+				(externals.length > 0 ?
+					"		var a = typeof exports === 'object' ? factory(" + externalsRequireArray("commonjs") + ") : factory(" + externalsRootArray(externals) + ");\n" :
+					"		var a = factory();\n"
+				) +
+				"		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];\n" +
+				"	}\n"
 			) +
 			"})(this, function(" + externalsArguments(externals) + ") {\nreturn ", "webpack/universalModuleDefinition"), source, "\n});\n");
 	}.bind(this));
 	mainTemplate.plugin("global-hash-paths", function(paths) {
-		if (this.name) paths = paths.concat(this.name);
+		if(this.name) paths = paths.concat(this.name);
 		return paths;
 	}.bind(this));
 	mainTemplate.plugin("hash", function(hash) {

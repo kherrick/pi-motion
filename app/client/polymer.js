@@ -55,12 +55,14 @@ module.exports = function() {
 
             //increment the progress bar
             for (i = 1; i < (count + 1); i++) {
+              // jshint -W083
               (function(index) {
+              // jshint +W083
                 setTimeout(function() {
                   var progress = (index / count) * 100;
                   document.querySelector('#init-sensor-progress-bar').value = progress;
                 }, index * 1000);
-              })(i); //jshint ignore:line
+              })(i);
             }
 
             //hide the progress bar

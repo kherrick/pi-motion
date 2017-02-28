@@ -49,7 +49,7 @@
 
 	  var config = __webpack_require__(1),
 	    polymer = __webpack_require__(2),
-	    robot = __webpack_require__(3);
+	    robot = __webpack_require__(4);
 
 	  $(document).ready(function() {
 	    robot.setup(config.cylonApiIpAddress, config.cylonApiPort);
@@ -64,7 +64,7 @@
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = {
 	  chartApiPort: 80,
@@ -72,7 +72,7 @@
 	  httpServerPort: 80,
 	  chartServerIpAddress: '127.0.0.1',
 	  cylonApiIpAddress: '127.0.0.1',
-	  httpServerIpAddress: '127.0.0.1',
+	  httpServerIpAddress: '127.0.0.1'
 	};
 
 
@@ -85,7 +85,7 @@
 
 	  var ajax, pages, scaffold,
 	    cache = {},
-	    charts = __webpack_require__(4),
+	    charts = __webpack_require__(3),
 	    config = __webpack_require__(1),
 	    defaultRoute = 'home',
 	    template = document.querySelector('#main'),
@@ -255,61 +255,6 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-	  robot: null,
-	  setup: function(address, port) {
-	    'use strict';
-
-	    var baseUrl = 'https://' + address + ':' + port,
-	      events = {
-	        activatedEvent: new EventSource(
-	          baseUrl + '/api/robots/pi-motion/events/activated'
-	        ),
-	        deactivatedEvent: new EventSource(
-	          baseUrl + '/api/robots/pi-motion/events/deactivated'
-	        ),
-	        isToggledEvent: new EventSource(
-	          baseUrl + '/api/robots/pi-motion/events/is_toggled'
-	        )
-	      },
-	      sensor = __webpack_require__(5);
-
-	    events.activatedEvent.onmessage = function(event) {
-	      sensor.activated();
-	      console.log(event.data);
-	    };
-
-	    events.deactivatedEvent.onmessage = function(event) {
-	      sensor.deactivated();
-	      console.log(event.data);
-	    };
-
-	    events.isToggledEvent.onmessage = function(event) {
-	      var isToggled = event.data === 'true',
-	        $statusBar = $('#sensor-status-bar');
-
-	      if (isToggled === true) {
-	        $statusBar.text('The sensor is enabled.');
-
-	        return;
-	      }
-
-	      $statusBar.text('The sensor is disabled.');
-	    };
-
-	    //check every second what the state of the button is
-	    setInterval(function() {
-	      $.post(baseUrl + '/api/robots/pi-motion/commands/isToggled', function() {
-	      });
-	    }.bind(this), 1000);
-	  }
-	};
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
 	module.exports = function() {
 	  'use strict';
 
@@ -388,8 +333,63 @@
 
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {
+	  robot: null,
+	  setup: function(address, port) {
+	    'use strict';
+
+	    var baseUrl = 'https://' + address + ':' + port,
+	      events = {
+	        activatedEvent: new EventSource(
+	          baseUrl + '/api/robots/pi-motion/events/activated'
+	        ),
+	        deactivatedEvent: new EventSource(
+	          baseUrl + '/api/robots/pi-motion/events/deactivated'
+	        ),
+	        isToggledEvent: new EventSource(
+	          baseUrl + '/api/robots/pi-motion/events/is_toggled'
+	        )
+	      },
+	      sensor = __webpack_require__(5);
+
+	    events.activatedEvent.onmessage = function(event) {
+	      sensor.activated();
+	      console.log(event.data);
+	    };
+
+	    events.deactivatedEvent.onmessage = function(event) {
+	      sensor.deactivated();
+	      console.log(event.data);
+	    };
+
+	    events.isToggledEvent.onmessage = function(event) {
+	      var isToggled = event.data === 'true',
+	        $statusBar = $('#sensor-status-bar');
+
+	      if (isToggled === true) {
+	        $statusBar.text('The sensor is enabled.');
+
+	        return;
+	      }
+
+	      $statusBar.text('The sensor is disabled.');
+	    };
+
+	    //check every second what the state of the button is
+	    setInterval(function() {
+	      $.post(baseUrl + '/api/robots/pi-motion/commands/isToggled', function() {
+	      });
+	    }.bind(this), 1000);
+	  }
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
 
 	module.exports = {
 	  activated: function() {
